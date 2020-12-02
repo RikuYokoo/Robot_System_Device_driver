@@ -17,21 +17,28 @@ static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
 
+static int sg, bg, og;
 int gpio[] = {26, 16, 4, 9, 10, 11, 25};
 const int num = 7;
 
-
+void led_on(int x){
+  gpio_base[7] = 1 << gpio[x];
+}
+void led_off(int x){
+  gpio_base[10] = 1 << gpio[x];
+}
 void reset(void){
   int i;
   for(i=0; i<num; i++){
     gpio_base[10] = 1 << gpio[i];
   }
+  sg = bg = og = 0;
 }
 
 static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_t* pos)
 {
 	char c;
-  int i,led_on[7], led_off[7];
+  int i;
 	if(copy_from_user(&c, buf, sizeof(char)))
 		return -EFAULT;
 
@@ -46,26 +53,45 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
   }*/
 	
 	if(c == '0'){
-		gpio_base[10] = 1 << 25;
+    led_off(6);
 	}else if(c == '1'){
-		gpio_base[7] = 1 << 25;
-	}else if(c == 't'){
+		//gpio_base[7] = 1 << 25;
+    led_on(6);
+	}else if(c == 't'){//led all on
     for(i = 0; i < num; i++){
 		  gpio_base[7] = 1 << gpio[i];
       msleep(500);
     }
-  }else if(c == 'r'){
+  }else if(c == 'r'){//led all off
     reset();
-      msleep(500);
-    }else if(c == 's'){
-      if(led_on[3] == gpio[7]){
-//        gpio_base[7] = 1 << gpio[4];
-      msleep(500);
-      }else{
- //       gpio_base[7] = 1 << gpio[3];
-      msleep(500);
-      }
+  }else if(c == 's'){
+    if(sg == 0){
+      led_on(3);
+      sg = 1;
+    }else{
+      led_on(4);
+      sg = 0;
     }
+  }else if(c == 'o'){
+    if(og == 0){
+      led_on(5);
+      og = 1;
+    }else{
+      led_on(6);
+      og = 0;
+    }
+  }else if(c == 'b'){
+    if(bg == 0){
+      led_on(0);
+      bg = 1;
+    }else if(bg == 1){
+      led_on(1);
+      bg = 2;
+    }else {
+      led_on(2);
+      bg = 0;
+    }
+  }
        
 
 	return 1;

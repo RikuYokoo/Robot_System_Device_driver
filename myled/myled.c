@@ -27,6 +27,12 @@ void led_on(int x){
 void led_off(int x){
   gpio_base[10] = 1 << gpio[x];
 }
+void all(void){
+  int i;
+  for(i = 0; i < num; i++){
+    led_on(i);
+  }
+}
 void reset(void){
   int i;
   for(i=0; i<num; i++){
@@ -42,27 +48,38 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
 	if(copy_from_user(&c, buf, sizeof(char)))
 		return -EFAULT;
 
-//	printk(KERN_INFO"receive %c\n",c);
-/*  for(i=0; i<num; i++){
-    gpio_base[7] = 1 << gpio[i];
-    led_on[i] = gpio_base[7];
-    gpio_base[10] = 1 << gpio[i];
-    led_off[i] = gpio_base[10];
-    gpio_base[7] = 0;
-    gpio_base[10] = 0;
-  }*/
 	
-	if(c == '0'){
-    led_off(6);
-	}else if(c == '1'){
-		//gpio_base[7] = 1 << 25;
-    led_on(6);
-	}else if(c == 't'){//led all on
+	if(c == 'k'){
     for(i = 0; i < num; i++){
-		  gpio_base[7] = 1 << gpio[i];
-      msleep(500);
+      led_on(i);
+      if(i > 0)
+        led_off(i-1); 
+      msleep(200);
     }
-  }else if(c == 'r'){//led all off
+    led_off(6);
+    msleep(200);
+    for(i = 6; i >= 0; i--){
+      led_on(i);
+      if(i < 6)
+        led_off(i+1);
+      msleep(200);
+    }
+    led_off(0);
+    msleep(200);
+    for(i = 0; i < 3; i++){
+      all();
+      msleep(200);
+      reset();
+      msleep(200);
+    }
+  }else if(c == '1'){
+    led_on(6); 
+  }else if(c == 't'){/*led all on*/
+    for(i = 0; i < num; i++){ 
+        gpio_base[7] = 1 << gpio[i]; 
+        msleep(500); 
+    }
+  }else if(c == 'r'){//led all off reset(); 
     reset();
   }else if(c == 's'){
     if(sg == 0){

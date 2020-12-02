@@ -72,14 +72,19 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
       reset();
       msleep(200);
     }
-  }else if(c == '1'){
-    led_on(6); 
-  }else if(c == 't'){/*led all on*/
-    for(i = 0; i < num; i++){ 
-        gpio_base[7] = 1 << gpio[i]; 
-        msleep(500); 
+    if(og == 0){
+      led_on(5);
+      og = 1;
+    }else if(og == 1){
+      led_on(6);
+      og = 2;
     }
-  }else if(c == 'r'){//led all off reset(); 
+  }else if(c == 't'){/*led all on*/
+    for(i = 0; i < num; i++){
+        gpio_base[7] = 1 << gpio[i];
+        msleep(500);
+    }
+  }else if(c == 'r'){//led all off 
     reset();
   }else if(c == 's'){
     if(sg == 0){

@@ -6,21 +6,23 @@
 野球で使用するBSOカウンタを作ってみた.  
 ---
 ### 環境
-Raspberry Pi 4 Model B(ubuntu18.04)  
-使用GPIO(26,16,4,9,10,11,25)計7個  
-ブレッドボード  
-LED7個(緑3個, 黄色2個, 赤1個)  
-抵抗200Ω7個  
-ジャンパー線
+- Raspberry Pi 4 Model B(ubuntu18.04)  
+- 使用GPIO(26,16,4,9,10,11,25)計7個  
+- ブレッドボード  
+- LED7個(緑3個, 黄色2個, 赤1個)  
+- 抵抗200Ω7個  
+- ジャンパー線
 i![13137365742873](https://user-images.githubusercontent.com/53966271/100971348-0b7dad00-357a-11eb-8da2-01044700add6.jpg)  
 ---
 ### 実装方法
-`git clone https://github.com/RikuYokoo/Robot_System_Device_driver.git`  
-`cd myled`  
-`make`  
-`sudo insmod myled.ko`  
-`sudo chmod 666 /dev/myled0`  
-`echo X[^1] > /dev/myled0`  
+```sh
+git clone https://github.com/RikuYokoo/Robot_System_Device_driver.git  
+cd myled  
+make  
+sudo insmod myled.ko  
+sudo chmod 666 /dev/myled0  
+echo X[^1] > /dev/myled0  
+```
 [^1]Xにはコマンドが入る詳細は下のページ  
 ---
 ### コマンド  

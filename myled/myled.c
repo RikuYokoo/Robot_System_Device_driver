@@ -40,6 +40,19 @@ void reset(void){
   }
   sg = bg = og = 0;
 }
+void all_off(void){
+  int i;
+  for(i=0; i<num; i++){
+    gpio_base[10] = 1 << gpio[i];
+  }
+}
+void sb_clear(void){
+  int i;
+  for(i = 0; i < 5; i++){
+    led_off(i);
+  }
+  sg = bg = 0;
+}
 
 static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_t* pos)
 {
@@ -50,6 +63,7 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
 
 	
 	if(c == 'k'){
+    all_off();
     for(i = 0; i < num; i++){
       led_on(i);
       if(i > 0)
@@ -69,13 +83,14 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     for(i = 0; i < 3; i++){
       all();
       msleep(200);
-      reset();
+      all_off();
       msleep(200);
     }
     if(og == 0){
       led_on(5);
       og = 1;
     }else if(og == 1){
+      led_on(5);
       led_on(6);
       og = 2;
     }
@@ -90,16 +105,33 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     if(sg == 0){
       led_on(3);
       sg = 1;
-    }else{
+    }else if(sg == 1){
       led_on(4);
+      sg = 2;
+    }else if(sg == 2){
+      sb_clear();
+      if(og == 0){
+        led_on(5);
+        og = 1;
+      }else if(og == 1){
+        led_on(6);
+        og = 2;
+      }else{
+        reset();
+      }
       sg = 0;
     }
   }else if(c == 'o'){
     if(og == 0){
       led_on(5);
+      sb_clear();
       og = 1;
-    }else{
+    }else if(og == 1){
+      sb_clear();
       led_on(6);
+      og = 2;
+    }else if(og == 2){
+      reset();
       og = 0;
     }
   }else if(c == 'b'){
@@ -109,9 +141,11 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     }else if(bg == 1){
       led_on(1);
       bg = 2;
-    }else {
+    }else if(bg == 2){
       led_on(2);
-      bg = 0;
+      bg = 3;
+    }else if(bg == 3){
+      sb_clear();
     }
   }
        

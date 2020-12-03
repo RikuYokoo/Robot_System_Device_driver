@@ -22,8 +22,9 @@ make
 sudo insmod myled.ko  
 sudo chmod 666 /dev/myled0  
 echo X[^1] > /dev/myled0  
-[^1]Xにはコマンドが入る詳細は下のページ  
 ```
+[^1]:Xにはコマンドが入る詳細は下のページ  
+
 ---
 ### コマンド  
 - t...LEDが順番についていく(LEDのテスト)  

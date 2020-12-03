@@ -14,7 +14,7 @@
 - ジャンパー線
 ![13137365742873](https://user-images.githubusercontent.com/53966271/100971348-0b7dad00-357a-11eb-8da2-01044700add6.jpg)  
 ---
-##GPIOとLED
+## GPIOとLED
 |GPIO||||LED|
 |:--:|:--:|:--:||:--:|:--:|:--:|
 |26|16|4||緑|緑|緑|

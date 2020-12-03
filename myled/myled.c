@@ -147,6 +147,9 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     }else if(bg == 3){
       sb_clear();
     }
+  }else if(c == 'c'){
+    sb_clear();
+  }else{
   }
        
 

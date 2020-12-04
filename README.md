@@ -9,7 +9,7 @@
 - Raspberry Pi 4 Model B(ubuntu18.04)  
 - 使用GPIO(26,16,4,9,10,11,25)計7個  
 - ブレッドボード  
-- LED7個(緑3個, 黄色2個, 赤1個)  
+- LED7個(緑3個, 黄色2個, 赤2個)  
 - 抵抗200Ω 7個  
 - ジャンパー線
 ![13137365742873](https://user-images.githubusercontent.com/53966271/100971348-0b7dad00-357a-11eb-8da2-01044700add6.jpg)  

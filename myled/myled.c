@@ -39,14 +39,14 @@ void all(void){
 }
 void reset(void){
   int i;
-  for(i=0; i<num; i++){
+  for(i = 0; i < num; i++){
     gpio_base[10] = 1 << gpio[i];
   }
   sg = bg = og = 0;
 }
 void all_off(void){
   int i;
-  for(i=0; i<num; i++){
+  for(i = 0; i < num; i++){
     gpio_base[10] = 1 << gpio[i];
   }
 }
@@ -71,7 +71,7 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     for(i = 0; i < num; i++){
       led_on(i);
       if(i > 0)
-        led_off(i-1); 
+        led_off(i-1);
       msleep(200);
     }
     led_off(6);
@@ -155,7 +155,6 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     sb_clear();
   }else{
   }
-       
 
 	return 1;
 }
@@ -208,7 +207,7 @@ static int __init init_mod(void)
 	gpio_base = ioremap_nocache(0xfe200000, 0xA0);
 
 
-  for(i=0; i<num; i++){
+  for(i = 0; i < num; i++){
 	  const u32 led = gpio[i];
 	  const u32 index = led/10;
 	  const u32 shift = (led%10)*3;

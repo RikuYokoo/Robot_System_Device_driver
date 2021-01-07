@@ -6,7 +6,7 @@
 - 野球で使用するBSOカウンタを作ってみた.  
 ---
 ## 環境
-- Raspberry Pi 4 Model B(ubuntu18.04)  
+- Raspberry Pi 4 Model B(ubuntu20.04)  
 - 使用GPIO(26,16,4,9,10,11,25)計7個  
 - ブレッドボード  
 - LED7個(緑3個, 黄色2個, 赤2個)  
